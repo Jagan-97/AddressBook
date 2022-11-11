@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
     private static Scanner sc = new Scanner(System.in);
@@ -22,12 +19,12 @@ public class AddressBookMain {
                     System.out.println("Enter Name Of Address Book");
                     String addBookName=sc.nextLine();
                     if(newAddressBook.containsKey(addBookName)){
-                        System.out.println("AddressBook Already Exist");
+                        System.out.println("This name already exists");
                     }else{
                         newAddressBook.put(addBookName,addressBook);
                         addAddressBook();
                         for (Map.Entry<String,ArrayList<ContactPerson>>Entry:newAddressBook.entrySet()){
-                            System.out.println("AddressBook Name: "+Entry.getKey()+" and the "+"Contact Details :: "+ Entry.getValue());
+                            System.out.println("AddressBook Name: "+Entry.getKey()+" and the "+"Contact Details :: \n"+Entry.getValue());
                         }
                         break;
                     }
@@ -84,10 +81,8 @@ public class AddressBookMain {
     public static void deleteContact() {
         System.out.println("Enter Name of Contact to be deleted:");
         String first_name = sc.nextLine();
-        //boolean flag = false;
         for (ContactPerson person : addressBook) {
             if (person.firstName.equals(first_name)) {
-                // flag = true;
                 addressBook.remove(person);
             }
             else {
@@ -101,31 +96,43 @@ public class AddressBookMain {
             System.out.println(addressBook.get(i));
         }
     }
+    public static void checkDuplicate(){
+        Set<String> ContactSet=new HashSet<>();
+        Set<ContactPerson>newSet=addressBook.stream().filter(n -> !ContactSet.add(n.getFirstName())).collect(Collectors.toSet());
+        for (ContactPerson addressBook:newSet){
+            System.out.println(" Displaying Duplicate contact: "+addressBook.getFirstName()+ " "+ addressBook.getLastName());
+        }
+    }
     public static void addAddressBook(){
-        boolean isFlag=true;
-        while(isFlag){
-            System.out.println("New Address Book Menu");
-            System.out.println("1.Add Contact Person \n" +
+        boolean isExit = true;
+        while(isExit){
+            System.out.println("Address Book Menu");
+            System.out.println("1.Add Contact Details \n" +
                     " 2.Edit Contact Details \n" +
-                    " 3.Delete Contact \n " +
-                    "4.Exit");
+                    " 3.Delete Contact Details \n " +
+                    " 4.Show Contact Details \n " +
+                    " 5.Duplicate Contact Details \n " +
+                    "6.Exit");
             System.out.print("Please Enter Option:");
             int option = Integer.parseInt(sc.nextLine());
             switch (option){
                 case 1:
                     addPerson();
-                    showAddressBook();
                     break;
                 case 2:
                     editContact();
-                    showAddressBook();
                     break;
                 case 3:
                     deleteContact();
-                    showAddressBook();
                     break;
                 case 4:
-                    isFlag=false;
+                    showAddressBook();
+                    break;
+                case 5:
+                    checkDuplicate();
+                    break;
+                case 6:
+                    isExit = false;
                     System.out.println("Exit");
                 default:
                     System.out.println("Please enter valid option");
