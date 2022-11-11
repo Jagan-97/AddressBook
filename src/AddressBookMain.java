@@ -1,39 +1,39 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddressBookMain {
     private static Scanner sc = new Scanner(System.in);
+    public static Map<String,ArrayList<ContactPerson>> newAddressBook = new HashMap<String,ArrayList<ContactPerson>>();
+    //public static ArrayList<Person> contact = new ArrayList<Person>();
     public static ArrayList<ContactPerson> addressBook = new ArrayList<ContactPerson>();
     public static void main(String args[]) {
         System.out.println("Welcome to Address Book");
         boolean isExit = false;
-        AddressBookMain addressBook = new AddressBookMain();
+        //AddressBookMain addressBook = new AddressBookMain();
         while (!isExit) {
-            System.out.println("Enter Option" +
-                    "\n1. Add Person" +
-                    "\n2. Edit Person" +
-                    "\n3. Delete Person" +
-                    "\n4. Show Address Book" +
-                    "\n5. Exit");
-            int option = Integer.parseInt(sc.nextLine());
-            switch (option) {
+            System.out.println("1.Add Address Book \n 2.Exit");
+            System.out.print("Enter Option:");
+            int choice = Integer.parseInt(sc.nextLine());
+            switch (choice) {
                 case 1:
-                    addressBook.addPerson();
-                    break;
+                    System.out.println("Enter Name Of Address Book");
+                    String addBookName=sc.nextLine();
+                    if(newAddressBook.containsKey(addBookName)){
+                        System.out.println("AddressBook Already Exist");
+                    }else{
+                        newAddressBook.put(addBookName,addressBook);
+                        addAddressBook();
+                        for (Map.Entry<String,ArrayList<ContactPerson>>Entry:newAddressBook.entrySet()){
+                            System.out.println("AddressBook Name: "+Entry.getKey()+" and the "+"Contact Details :: "+ Entry.getValue());
+                        }
+                        break;
+                    }
                 case 2:
-                    addressBook.editContact();
-                    break;
-                case 3:
-                    addressBook.deleteContact();
-                    break;
-                case 4:
-                    addressBook.showAddressBook();
-                    break;
-                case 5:
                     isExit = true;
                     System.out.println("Exit");
-                    break;
                 default:
                     System.out.println("Please Enter Valid Input");
             }
@@ -41,7 +41,7 @@ public class AddressBookMain {
         }
     }
 
-    private void addPerson() {
+    public static void addPerson() {
         System.out.println("Enter First name");
         String firstName = sc.nextLine();
         System.out.println("Enter Last Name");
@@ -54,19 +54,18 @@ public class AddressBookMain {
         String state = sc.nextLine();
         System.out.println("Enter Phone Number");
         long mobileNumber = Long.parseLong(sc.nextLine());
-        //parameterized constructor calling of Contact person class
         ContactPerson person = new ContactPerson(firstName, lastName, street, city, state, mobileNumber);
-        //Adding object element in arrayList
         addressBook.add(person);
 
     }
 
-    private void editContact() {
+    public static void editContact() {
         //Person person = new Person();
         System.out.println("Enter First Name of the contact to be edited");
         String enteredName = sc.nextLine();
         for (ContactPerson person : addressBook) {
             if (person.firstName.equals(enteredName)) {
+
                 System.out.println("Enter Street");
                 String street = sc.nextLine();
                 person.street = street;
@@ -82,13 +81,14 @@ public class AddressBookMain {
             }
         }
     }
-    private void deleteContact() {
-        System.out.println("Enter Name");
+    public static void deleteContact() {
+        System.out.println("Enter Name of Contact to be deleted:");
         String first_name = sc.nextLine();
+        //boolean flag = false;
         for (ContactPerson person : addressBook) {
             if (person.firstName.equals(first_name)) {
+                // flag = true;
                 addressBook.remove(person);
-                System.out.println("Enter Name of Contact to be deleted:");
             }
             else {
                 System.out.println("Contact not found");
@@ -96,9 +96,40 @@ public class AddressBookMain {
         }
 
     }
-    private void showAddressBook() {
+    public static void showAddressBook() {
         for(int i = 0; i < addressBook.size(); i++) {
             System.out.println(addressBook.get(i));
+        }
+    }
+    public static void addAddressBook(){
+        boolean isFlag=true;
+        while(isFlag){
+            System.out.println("New Address Book Menu");
+            System.out.println("1.Add Contact Person \n" +
+                    " 2.Edit Contact Details \n" +
+                    " 3.Delete Contact \n " +
+                    "4.Exit");
+            System.out.print("Please Enter Option:");
+            int option = Integer.parseInt(sc.nextLine());
+            switch (option){
+                case 1:
+                    addPerson();
+                    showAddressBook();
+                    break;
+                case 2:
+                    editContact();
+                    showAddressBook();
+                    break;
+                case 3:
+                    deleteContact();
+                    showAddressBook();
+                    break;
+                case 4:
+                    isFlag=false;
+                    System.out.println("Exit");
+                default:
+                    System.out.println("Please enter valid option");
+            }
         }
     }
 }
