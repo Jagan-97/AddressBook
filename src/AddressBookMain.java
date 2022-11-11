@@ -27,7 +27,15 @@ public class AddressBookMain {
                 case 3:
                     addressBook.deleteContact();
                     break;
-
+                case 4:
+                    addressBook.showAddressBook();
+                    break;
+                case 5:
+                    isExit = true;
+                    System.out.println("Exit");
+                    break;
+                default:
+                    System.out.println("Please Enter Valid Input");
             }
 
         }
@@ -59,7 +67,6 @@ public class AddressBookMain {
         String enteredName = sc.nextLine();
         for (ContactPerson person : addressBook) {
             if (person.firstName.equals(enteredName)) {
-
                 System.out.println("Enter Street");
                 String street = sc.nextLine();
                 person.street = street;
@@ -76,18 +83,22 @@ public class AddressBookMain {
         }
     }
     private void deleteContact() {
-        System.out.println("Enter Name of Contact to be deleted:");
+        System.out.println("Enter Name");
         String first_name = sc.nextLine();
-        //boolean flag = false;
         for (ContactPerson person : addressBook) {
             if (person.firstName.equals(first_name)) {
-                // flag = true;
                 addressBook.remove(person);
+                System.out.println("Enter Name of Contact to be deleted:");
             }
             else {
                 System.out.println("Contact not found");
             }
         }
 
+    }
+    private void showAddressBook() {
+        for(int i = 0; i < addressBook.size(); i++) {
+            System.out.println(addressBook.get(i));
+        }
     }
 }
