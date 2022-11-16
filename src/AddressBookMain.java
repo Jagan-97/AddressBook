@@ -124,6 +124,13 @@ public class AddressBookMain {
             }
         }
     }
+
+    public static void countCity() {
+        System.out.println("Enter a city name ");
+        String input = sc.nextLine();
+        long count = addressBook.stream().filter(city -> city.getCity().equals(input)).count();
+        System.out.println("No of contacts Matched " + input + " city is : " + count);
+    }
     public static void addAddressBook(){
         boolean isExit = true;
         while(isExit){
@@ -134,7 +141,8 @@ public class AddressBookMain {
                     "4.Show Contact Details \n " +
                     "5.Duplicate Contact Details \n " +
                     "6.Search Contact Details \n" +
-                    "7.Exit");
+                    "7.Count by City \n" +
+                    "8.Exit");
             System.out.print("Please Enter Option:");
             int option = Integer.parseInt(sc.nextLine());
             switch (option){
@@ -157,6 +165,9 @@ public class AddressBookMain {
                     searchByCityOrState();
                     break;
                 case 7:
+                    countCity();
+                    break;
+                case 8:
                     isExit = false;
                     System.out.println("Exit");
                     break;
