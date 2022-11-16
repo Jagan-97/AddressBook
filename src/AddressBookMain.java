@@ -103,16 +103,38 @@ public class AddressBookMain {
             System.out.println(" Displaying Duplicate contact: "+addressBook.getFirstName()+ " "+ addressBook.getLastName());
         }
     }
+    public static void searchByCityOrState() {
+        System.out.println("Enter the AddressBookName");
+        String bookName = sc.nextLine();
+        ArrayList<ContactPerson> book = newAddressBook.get(bookName);
+        AddressBookMain addressBookSystem = new AddressBookMain();
+        if (book == null) {
+            System.out.println("No book found with these name");
+        } else {
+            addressBookSystem.searchContactDetails();
+        }
+    }
+
+    public void searchContactDetails() {
+        System.out.println("Enter the city or state to search Contact");
+        String input = sc.nextLine();
+        for (ContactPerson person : addressBook) {
+            if (person.getCity().equals(input) || person.getState().equals(input)) {
+                System.out.println("Matches with city and state name contact is :" + person);
+            }
+        }
+    }
     public static void addAddressBook(){
         boolean isExit = true;
         while(isExit){
             System.out.println("Address Book Menu");
             System.out.println("1.Add Contact Details \n" +
-                    " 2.Edit Contact Details \n" +
-                    " 3.Delete Contact Details \n " +
-                    " 4.Show Contact Details \n " +
-                    " 5.Duplicate Contact Details \n " +
-                    "6.Exit");
+                    "2.Edit Contact Details \n" +
+                    "3.Delete Contact Details \n " +
+                    "4.Show Contact Details \n " +
+                    "5.Duplicate Contact Details \n " +
+                    "6.Search Contact Details \n" +
+                    "7.Exit");
             System.out.print("Please Enter Option:");
             int option = Integer.parseInt(sc.nextLine());
             switch (option){
@@ -132,8 +154,12 @@ public class AddressBookMain {
                     checkDuplicate();
                     break;
                 case 6:
+                    searchByCityOrState();
+                    break;
+                case 7:
                     isExit = false;
                     System.out.println("Exit");
+                    break;
                 default:
                     System.out.println("Please enter valid option");
             }
