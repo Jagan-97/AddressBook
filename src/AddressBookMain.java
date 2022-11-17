@@ -139,6 +139,14 @@ public class AddressBookMain {
             addressBook.stream().sorted(Comparator.comparing(ContactPerson::getFirstName)).forEach(System.out::println);
         }
     }
+
+    public static void sortingByState() {
+        if (addressBook.isEmpty()) {
+            System.out.println("Contact book is empty");
+        } else {
+            addressBook.stream().sorted(Comparator.comparing(ContactPerson::getState)).forEach(System.out::println);
+        }
+    }
     public static void addAddressBook(){
         boolean isExit = true;
         while(isExit){
@@ -151,7 +159,8 @@ public class AddressBookMain {
                     "6.Search Contact Details \n" +
                     "7.Count by City \n" +
                     "8.Sort by Person Name Alphabatically" +
-                    "9.Exit");
+                    "9.Sort by State Alphabatically" +
+                    "10.Exit");
             System.out.print("Please Enter Option:");
             int option = Integer.parseInt(sc.nextLine());
             switch (option){
@@ -180,6 +189,9 @@ public class AddressBookMain {
                     sortByPersonName();
                     break;
                 case 9:
+                    sortingByState();
+                    break;
+                case 10:
                     isExit = false;
                     System.out.println("Exit");
                     break;
